@@ -1,5 +1,5 @@
 <?php
-// define('IMAGES_ROOT', '/crud/uploads/images/');
+// define('IMAGES_ROOT', '/microservices-v2/uploads/images/');
 
 require_once 'Database.php';
 
@@ -262,4 +262,44 @@ function safeguard($data)
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
+}
+
+
+function nettoyer_texte($texte) {
+    // Remplacer les espaces par un underscore
+    $texte = str_replace(" ", "_", $texte);
+
+    // Remplacer les caractères avec accents en caractères sans accents
+    $texte = htmlentities($texte, ENT_COMPAT, "UTF-8");
+    $texte = preg_replace('/&([a-zA-Z])(uml|acute|grave|circ|tilde|cedil);/', '$1', $texte);
+    $texte = html_entity_decode($texte);
+
+    // Supprimer les caractères spéciaux
+    $texte = preg_replace("/[^a-zA-Z0-9_]/", "", $texte);
+
+    return $texte;
+}
+function check_form_fields_not_empty($fields) {
+    foreach($fields as $field) {
+      if(empty($_POST[$field])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+// Fonction qui vérirife qu'un mot de passe contient 8 caractères minimum, une minuscule, une majuscule et un chiffre
+
+function checkPassword($password) {
+    // Vérifier la longueur du mot de passe
+    if (strlen($password) < 8) {
+        return false;
+    }
+    // Vérifier s'il y a au moins une minuscule, une majuscule et un chiffre
+    if (!preg_match("/[a-z]/", $password) || !preg_match("/[A-Z]/", $password) || !preg_match("/[0-9]/", $password)) {
+        return false;
+    }
+    // Si toutes les conditions sont remplies, le mot de passe est valide
+    return true;
 }

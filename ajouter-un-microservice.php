@@ -1,5 +1,8 @@
 <?php
-
+session_start();
+if (!isset($_SESSION['loggedin']) OR $_SESSION['loggedin'] !==true) {
+	header('Location: index.php');			
+}
 include  'functions.php';
 
 
@@ -18,15 +21,17 @@ if (!empty($id)) {
 ?>
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Microservices</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <!-- FONTAWSOME -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-  </head>
-  <body>
+
+<head>
+    <?php
+    include_once 'inc/head.php';
+    ?>
+</head>
+
+<body>
+    <?php
+    include_once 'inc/header.php';
+    ?>
 
 
 	<main class="container">
@@ -71,7 +76,9 @@ if (!empty($id)) {
 			<?php endif ?>
 		</div>
 	</main>
-
+	<?php
+    include_once 'inc/footer.php';
+    ?>
 </body>
 
 </html>
